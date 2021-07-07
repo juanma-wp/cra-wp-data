@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# Demo `@wordpress/data`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and it uses `@wordpress/data` to manage the state of a simple marketplace site 
 
-## Available Scripts
+## Installation 
 
-In the project directory, you can run:
+### Backend Stack w/ Docker
 
-### `npm start`
+This demo requires the following backend stack to work:
+- A **JsonBox** Server (Node + Express) → A HTTP based JSON storage. It lets you store, read & modify JSON data over HTTP APIs.
+- A **MongoDB** Server → To persist the data handled by the JsonBox Server 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This backend stack can be easily implemented with Docker. So you'll need to have [Docker](https://www.docker.com/) installed in your machine and then execute (from the root of the project)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+docker compose up -d
+```
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This `docker compose up -d` command should launch the proper services and connect them to the proper ports so the Frontend app can do its requests properly 
 
-### `npm run build`
+You can check the backend services are properly up with the command `docker compose ps` or just `docker ps`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+(base) ⬢  cra-wp-data  master ⦿ docker compose ps
+NAME                SERVICE             STATUS              PORTS
+jsonbox             jsonbox             running             0.0.0.0:3010->3000/tcp, :::3010->3000/tcp
+mongo               mongo               running             0.0.0.0:27017->27017/tcp, :::27017->27017/tcp
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+(base) ⬢  cra-wp-data  master ⦿ docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED       STATUS       PORTS                                           NAMES
+4679567d4d61   c5cb90be991e   "docker-entrypoint.s…"   5 hours ago   Up 5 hours   0.0.0.0:3010->3000/tcp, :::3010->3000/tcp       jsonbox
+de058bbc19e8   0e120e3fce9a   "docker-entrypoint.s…"   5 hours ago   Up 5 hours   0.0.0.0:27017->27017/tcp, :::27017->27017/tcp   mongo
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Once the docker containers are up we'll have available both JsonBox & Mongo services
 
-### `npm run eject`
+#### JsonBox
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**JsonBox** is a HTTP based JSON storage that lets us store, read & modify JSON data over HTTP APIs
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+This service will be available under http://localhost:3010. If we go to this URL we'll se how it generates a _JsonBox_ we can use to store our data
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The JsonBox URL will have a URL like `http://localhost:3010/box_6b8abeea5bf13c9906db` (you'll have another one but with a similar syntax)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### Frontend w/ Create React App
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The React App has been created using Create React App
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+You'll have to set these two environment variables
+- SKIP_PREFLIGHT_CHECK → to avoid CORS issues
+- REACT_APP_RESOURCE_ADDRESS → to set the URL of the JsonBox (as explained above)
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+_`.env` example_
+```
+SKIP_PREFLIGHT_CHECK=true
+REACT_APP_RESOURCE_ADDRESS=http://localhost:3010/box_85aa8b19aa16248bd8ff
+```

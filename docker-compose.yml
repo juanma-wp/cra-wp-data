@@ -1,0 +1,21 @@
+version: "2"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - ./jsonbox/data:/data/db
+    ports:
+      - "27017:27017"
+  jsonbox:
+    container_name: jsonbox
+    restart: always
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/jsonbox-io-dev
+    image: harlev/jsonbox
+    ports:
+      - "3010:3000"
+    links:
+      - mongo
+    depends_on:
+      - mongo

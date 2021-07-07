@@ -1,17 +1,67 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import { render, useState } from "@wordpress/element";
+import { ProductEditView } from "./components/product-edit";
+import { ProductGrid } from "./components/product-display";
+import { Cart } from "./components/cart";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink
+} from "react-router-dom";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import "./data"; // create the store
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+export default function App() {
+  const [cartItems, updateCartItems] = useState([]);
+  const addToCart = product => {
+    if (!cartItems.some(cartItem => cartItem.id === product.id)) {
+      const updatedCart = [...cartItems, product];
+      updateCartItems(updatedCart);
+    }
+  };
+  const removeFromCart = cartItemId => {
+    const updatedCartItems = cartItems.filter(
+      cartItem => cartItem.id !== cartItemId
+    );
+    updateCartItems(updatedCartItems);
+  };
+  return (
+    <div className="container">
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <NavLink exact activeStyle={{ fontWeight: "bold", color: "red" }} to="/">Home (Display)</NavLink>
+            </li>
+            <li>
+              <NavLink activeStyle={{ fontWeight: "bold", color: "red" }} to="/cart">Cart</NavLink>
+            </li>
+            <li>
+              <NavLink activeStyle={{ fontWeight: "bold", color: "red" }}  to="/edit">Edit</NavLink>
+            </li>
+          </ul>
+        </nav>
+
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+        <Switch>
+          <Route exact path="/">
+            <ProductGrid cartItems={cartItems} addToCart={addToCart} />
+          </Route>
+          <Route path="/cart">
+            <Cart cartItems={cartItems} onRemove={removeFromCart} />
+          </Route>
+          <Route path="/edit">
+            <ProductEditView />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
