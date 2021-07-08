@@ -6,10 +6,10 @@ This project shows the use of things such as:
 - Store creation w/ `createReduxStore`
 - reducers
 - selectors
-- resolvers
 - actions and action creators
+- resolvers
 - controls
-- 
+
 
 ## Installation 
 
