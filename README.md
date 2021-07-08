@@ -2,6 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and it uses `@wordpress/data` to manage the state of a simple marketplace site 
 
+This project shows the use of things such as:
+- Store creation w/ `createReduxStore`
+- reducers
+- selectors
+- resolvers
+- actions and action creators
+- controls
+- 
+
 ## Installation 
 
 ### Backend Stack w/ Docker
@@ -10,7 +19,7 @@ This demo requires the following backend stack to work:
 - A **JsonBox** Server (Node + Express) → A HTTP based JSON storage. It lets you store, read & modify JSON data over HTTP APIs.
 - A **MongoDB** Server → To persist the data handled by the JsonBox Server 
 
-This backend stack can be easily implemented with Docker. So you'll need to have [Docker](https://www.docker.com/) installed in your machine and then execute (from the root of the project)
+This backend stack can be easily implemented with Docker. So, by having [Docker](https://www.docker.com/) installed in your machine, you can execute (from the root of the project)
 
 ```
 docker compose up -d
@@ -43,7 +52,7 @@ Once the docker containers are up we'll have available both JsonBox & Mongo serv
 
 This service will be available under http://localhost:3010. If we go to this URL we'll se how it generates a _JsonBox_ we can use to store our data
 
-The JsonBox URL will have a URL like `http://localhost:3010/box_6b8abeea5bf13c9906db` (you'll have another one but with a similar syntax)
+The JsonBox URL will have a URL like `http://localhost:3010/box_6b8abeea5bf13c9906db` (take note of this URL as you'll need it for the Frontend settings).
 
 
 ### Frontend w/ Create React App
@@ -51,8 +60,8 @@ The JsonBox URL will have a URL like `http://localhost:3010/box_6b8abeea5bf13c99
 The React App has been created using Create React App
 
 You'll have to set these two environment variables
-- SKIP_PREFLIGHT_CHECK → to avoid CORS issues
-- REACT_APP_RESOURCE_ADDRESS → to set the URL of the JsonBox (as explained above)
+- `SKIP_PREFLIGHT_CHECK` → to avoid CORS issues
+- `REACT_APP_RESOURCE_ADDRESS` → to set the URL of the JsonBox (as explained above)
 
 _`.env` example_
 ```
