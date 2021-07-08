@@ -6,9 +6,12 @@ import { Cart } from "./components/cart";
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  NavLink
+  Route
 } from "react-router-dom";
+
+import Navbar from './components/Navbar'
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./data"; // create the store
 
@@ -30,19 +33,8 @@ export default function App() {
     <div className="container">
     <Router>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <NavLink exact activeStyle={{ fontWeight: "bold", color: "red" }} to="/">Home (Display)</NavLink>
-            </li>
-            <li>
-              <NavLink activeStyle={{ fontWeight: "bold", color: "red" }} to="/cart">Cart</NavLink>
-            </li>
-            <li>
-              <NavLink activeStyle={{ fontWeight: "bold", color: "red" }}  to="/edit">Edit</NavLink>
-            </li>
-          </ul>
-        </nav>
+      
+        <Navbar />
 
         {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
