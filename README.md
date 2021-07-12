@@ -19,7 +19,7 @@ _From the root of the project_ you have to:
 
 1. Run `docker compose up -d` to launch backend docker services
 1. Go to the JsonBox server URL (`http://localhost:3010`) and take note of the JsonBox URL (some URL like `http://localhost:3010/box_XXXXXXXXXXXXXXXXXX`)
-1. Create a `.env` file to set the Environment Variables needed for the project
+1. Create a `.env` file to set the [Environment Variables needed for the project](#environment-variables-for-react-app)
 1. Run `npm install` to install the dependencies
 1. Run `npm start` to launch the React App
 
