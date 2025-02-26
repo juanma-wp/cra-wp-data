@@ -1,6 +1,6 @@
 import "./polyfills";
 import React from "react";
-import { render, useState } from "@wordpress/element";
+import { createRoot, useState } from "@wordpress/element";
 import { ProductEditView } from "./components/product-edit";
 import { ProductGrid } from "./components/product-display";
 import { Cart } from "./components/cart";
@@ -52,4 +52,5 @@ export default function App() {
 }
 
 const rootElement = document.getElementById("root");
-render(<App />, rootElement);
+const root = createRoot(rootElement);
+root.render(<App />);

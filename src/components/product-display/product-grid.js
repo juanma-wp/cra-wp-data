@@ -1,10 +1,10 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import { __ } from "@wordpress/i18n";
 import { useSelect } from "@wordpress/data";
-import {STORE_KEY} from  "../../data/products/constants";
-import { Alert } from 'reactstrap';
+import { STORE_KEY } from "../../data/products/constants";
+import { Alert } from "reactstrap";
 import { NavLink } from "react-router-dom";
-import CardProduct from "./CardProduct"
+import CardProduct from "./CardProduct";
 
 // const ProductItem = ({
 //   product = { name: "", description: "", price: "0.00" },
@@ -36,25 +36,29 @@ import CardProduct from "./CardProduct"
 // };
 
 const ProductGrid = ({ cartItems = [], addToCart = () => null }) => {
-  const products = useSelect(select => {
+  const products = useSelect((select) => {
     return select(STORE_KEY).getProducts();
   }, []);
-  
-  const productItems = products.map(product => {
+
+  const productItems = products.map((product) => {
     return (
       <CardProduct
         key={product.id}
         product={product}
         addToCart={() => addToCart(product)}
-        inCart={cartItems.some(cartItem => cartItem.id === product.id)}
+        inCart={cartItems.some((cartItem) => cartItem.id === product.id)}
       />
     );
   });
-  
-  return productItems.length 
-    ? <div className="row row-cols-3 py-3 px-lg-5">{productItems}</div>
-    :  <Alert color="danger">There are no products on the list. Please add some from the <NavLink to="/edit">Edition page</NavLink></Alert>
-      
+
+  return productItems.length ? (
+    <div className="row row-cols-3 py-3 px-lg-5">{productItems}</div>
+  ) : (
+    <Alert color="danger" transition={{ timeout: 150 }}>
+      There are no products on the list. Please add some from the{" "}
+      <NavLink to="/edit">Edition page</NavLink>
+    </Alert>
+  );
 };
 
 export default ProductGrid;
