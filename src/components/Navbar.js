@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Collapse,
   Navbar,
@@ -6,10 +6,7 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink as NavLinkReactstrap,
-  NavbarText
-} from 'reactstrap';
-
+} from "reactstrap";
 
 import { NavLink } from "react-router-dom";
 
@@ -17,6 +14,19 @@ const MyNavbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  const navLinkStyle = {
+    padding: ".5rem 1rem",
+    display: "block",
+    color: "#212529",
+    textDecoration: "none",
+  };
+
+  const activeStyle = {
+    ...navLinkStyle,
+    fontWeight: "bold",
+    color: "red",
+  };
 
   return (
     <div>
@@ -26,26 +36,38 @@ const MyNavbar = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLinkReactstrap>
-                <NavLink exact activeStyle={{ fontWeight: "bold", color: "red" }} to="/">Home (List)</NavLink>
-              </NavLinkReactstrap>
+              <NavLink
+                exact
+                style={navLinkStyle}
+                activeStyle={activeStyle}
+                to="/"
+              >
+                Home (List)
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLinkReactstrap>
-                <NavLink activeStyle={{ fontWeight: "bold", color: "red" }} to="/cart">Cart</NavLink>
-              </NavLinkReactstrap>
+              <NavLink
+                style={navLinkStyle}
+                activeStyle={activeStyle}
+                to="/cart"
+              >
+                Cart
+              </NavLink>
             </NavItem>
             <NavItem>
-              <NavLinkReactstrap>
-                <NavLink activeStyle={{ fontWeight: "bold", color: "red" }}  to="/edit">Edit</NavLink>
-              </NavLinkReactstrap>
+              <NavLink
+                style={navLinkStyle}
+                activeStyle={activeStyle}
+                to="/edit"
+              >
+                Edit
+              </NavLink>
             </NavItem>
           </Nav>
-          
         </Collapse>
       </Navbar>
     </div>
   );
-}
+};
 
 export default MyNavbar;

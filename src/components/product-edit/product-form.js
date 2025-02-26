@@ -2,35 +2,39 @@ import React from "react";
 import { __ } from "@wordpress/i18n";
 import { FormInput } from "../general";
 import { useState } from "@wordpress/element";
-import uniqid from "uniqid";
+import { v4 as uuidv4 } from "uuid";
 
 const ProductForm = ({
   product = {
-    id: uniqid(),
+    id: uuidv4(),
     name: "",
     description: "",
-    price: ""
+    price: "",
   },
-  onProductUpdate = () => null
+  onProductUpdate = () => null,
 }) => {
   const [updatedProduct, setUpdatedProduct] = useState(product);
   const { name, description, price, id } = updatedProduct;
   const isNew =
     product.name === "" && product.description === "" && product.price === "";
   const submitLabel = isNew ? __("Create Product") : __("Update Product");
-  const onChange = property => event => {
+
+  const onChange = (property) => (event) => {
     const newProduct = {
       ...updatedProduct,
-      [property]: event.target.value
+      [property]: event.target.value,
     };
     setUpdatedProduct(newProduct);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onProductUpdate(updatedProduct, isNew);
+  };
+
   return (
     <div className={"product-form"}>
-      <form
-        onSubmit={() => onProductUpdate(updatedProduct, isNew)}
-        id={`product-${id}`}
-      >
+      <form onSubmit={handleSubmit} id={`product-${id}`}>
         <FormInput
           onChange={onChange("name")}
           as={"text"}

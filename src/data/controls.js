@@ -8,7 +8,7 @@ export const fetch = (path, options = {}) => {
   return {
     type: "FETCH",
     path,
-    options
+    options,
   };
 };
 
@@ -17,9 +17,17 @@ export default {
     return new Promise((resolve, reject) => {
       window
         .fetch(path, options)
-        .then(response => response.json())
-        .then(result => resolve(result))
-        .catch(error => reject(error));
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((result) => resolve(result))
+        .catch((error) => {
+          console.error("Fetch error:", error);
+          reject(error);
+        });
     });
-  }
+  },
 };
