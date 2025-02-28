@@ -1,22 +1,27 @@
-const RESOURCE_ADDRESS = import.meta.env.REACT_APP_RESOURCE_ADDRESS;
+const RESOURCE_ADDRESS = import.meta.env.VITE_RESOURCE_ADDRESS;
 
 if (!RESOURCE_ADDRESS) {
   console.error(
-    "Resource address not found in environment variables. Check your .env file and make sure REACT_APP_RESOURCE_ADDRESS is set."
+    "Resource address not found in environment variables. Check your .env file and make sure VITE_RESOURCE_ADDRESS is set."
   );
   console.log("Available environment variables:", import.meta.env);
-  console.log("Expected value:", process.env.REACT_APP_RESOURCE_ADDRESS);
 }
 
-export const getResourcePath = (id) => {
-  if (!RESOURCE_ADDRESS) {
-    throw new Error(
-      "Resource address is not configured. Please check your .env file."
-    );
+export const getResourcePath = (action = "get") => {
+  const baseUrl = import.meta.env.VITE_RESOURCE_ADDRESS;
+  if (!baseUrl) {
+    console.error("VITE_RESOURCE_ADDRESS is not set");
+    return "";
   }
-  const path = id ? `${RESOURCE_ADDRESS}/${id}` : RESOURCE_ADDRESS;
-  console.log("API Request to:", path);
-  return path;
+
+  // Add specific endpoints based on action
+  switch (action) {
+    case "add":
+      return `${baseUrl}/add`;
+    case "get":
+    default:
+      return baseUrl;
+  }
 };
 
 const getCurrentTimeFormatted = () => {
